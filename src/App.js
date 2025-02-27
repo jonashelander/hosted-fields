@@ -142,25 +142,17 @@ export default function App() {
     // Listen for messages from the Hosted Fields iframe
     const handleMessage = (event) => {
       if (event.origin !== "https://test-hostedpages.paymentiq.io") return; // Ensure it's from a trusted source
-
-      console.log("Message received from Hosted Fields:", event.data);
-
-      // Handle different types of messages
-      if (event.data.type === "fieldChanged") {
-        console.log("Field changed:", event.data);
-      } else if (event.data.type === "formSubmitted") {
-        console.log("Form submitted:", event.data);
-      }
+      console.log("Message received from Hosted Fields:", event.data.formData);
     };
-
     window.addEventListener("message", handleMessage);
+    winwow.addEventListener();
   }, []);
 
   return (
     <div className="App">
       <h1>Hosted Fields</h1>
       <button onClick={handleGetFields}>Get fields</button>
-      <div id="hosted-fields-wrapper" />
+      <div id="hosted-fields-wrapper" />´
     </div>
   );
 }
