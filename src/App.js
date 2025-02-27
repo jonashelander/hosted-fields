@@ -145,7 +145,6 @@ export default function App() {
       console.log("Message received from Hosted Fields:", event.data.formData);
     };
     window.addEventListener("message", handleMessage);
-    winwow.addEventListener();
   }, []);
 
   return (
