@@ -113,8 +113,16 @@ export default function App() {
     });
   };
 
-  const handleGetFields = () => {
-    HostedFields.get();
+  // const handleGetFields = () => {
+  //   HostedFields.get();
+  // };
+
+  const handleGetFields = async () => {
+    try {
+      await HostedFields.get(); // Await the function if it's async
+    } catch (error) {
+      console.error("Error occurred while getting fields:", error);
+    }
   };
 
   const handleCallback = () => {
@@ -130,6 +138,22 @@ export default function App() {
     if (hasInitialized.current) return;
     setupMethod();
     hasInitialized.current = true;
+
+    // Listen for messages from the Hosted Fields iframe
+    const handleMessage = (event) => {
+      if (event.origin !== "https://test-hostedpages.paymentiq.io") return; // Ensure it's from a trusted source
+
+      console.log("Message received from Hosted Fields:", event.data);
+
+      // Handle different types of messages
+      if (event.data.type === "fieldChanged") {
+        console.log("Field changed:", event.data);
+      } else if (event.data.type === "formSubmitted") {
+        console.log("Form submitted:", event.data);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
   }, []);
 
   return (
